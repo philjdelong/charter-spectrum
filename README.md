@@ -1,19 +1,13 @@
 # Charter-Spectrum FE Code Challenge
 
-### `yarn start`
+### About
+Depoloyed to: [Restaurant Challenge](https://restaurant-challenge.netlify.app/) using Netlify
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+In this challenge, I consumed an external API using Axios, and displayed restaurant results sorted alphabetically.
+Once all restaurants are displayed, users can filter restaurats by state.
+After viewing by state, Users can click the "Clear" button to reset all results.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `Fork and Clone (to run locally)`
+- Install `yarn` or `npm`
+- `$ yarn start`
+- visit `localhost:3000`
