@@ -6,7 +6,7 @@ const restaurant = props => {
                 <td className="cell">{props.city}</td>
                 <td className="cell-state">{props.state}</td>
                 <td className="cell">{props.telephone}</td>
-                {/* <td className="cell">{props.genre}</td> */}
+                <td className="cell-genre">{props.genre}</td>
             </tbody>
         </div>
     );
