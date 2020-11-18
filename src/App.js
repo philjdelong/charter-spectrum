@@ -2,6 +2,8 @@ import './App.css';
 import { Component } from 'react';
 import axios from 'axios';
 import Restaurant from './Components/Restaurant/Restaurant.js'
+import Header from './Components/Header/Header.js'
+import Table from './Components/Table/Table.js'
 
 class App extends Component {
   state = {
@@ -39,7 +41,7 @@ class App extends Component {
       this.setState({noResults: false});
       return this.setState({display: filtered});
     } else {
-      return this.setState({noResults: true})
+      return this.setState({noResults: true});
     };
   };
 
@@ -53,8 +55,7 @@ class App extends Component {
       return (
         <div className="App">
         <header className="App-header">
-          <h1>Charter-Spectrum FE Code Challenge</h1>
-          <p>Filter by State (abbreviation):<br></br><input onChange={this.stateFilter}></input><button onClick={this.clearFilter}>Clear</button></p>
+          <Header stateFilter={this.stateFilter} clearFilter={this.clearFilter}/> 
           <div>
             <p>No Restaurants.</p>
           </div>
@@ -77,15 +78,8 @@ class App extends Component {
       return (
         <div className="App">
           <header className="App-header">
-            <h1>Charter-Spectrum FE Code Challenge</h1>
-            <p>Filter by State (abbreviation):<br></br><input onChange={this.stateFilter}></input><button onClick={this.clearFilter}>Clear</button></p>
-            <table className="restaurants">
-              <th>Name,</th>
-              <th>City,</th>
-              <th>State,</th>
-              <th>Telephone,</th>
-              <th>Genre</th>
-            </table>
+            <Header stateFilter={this.stateFilter} clearFilter={this.clearFilter}/>
+            <Table />
             {restaurants}
           </header>
         </div>
