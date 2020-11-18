@@ -1,14 +1,15 @@
 import './App.css';
 import { Component } from 'react';
-import axios from 'axios'
-import env from 'dotenv'
-
-env.config();
+import axios from 'axios';
+import Restaurant from './Components/Restaurant/Restaurant.js'
 
 class App extends Component {
   state = {
-    restaurants: []
-  }
+    restaurants: [],
+    filtered: [],
+    filter: false
+  };
+
   componentDidMount() {
     axios.get("https://code-challenge.spectrumtoolbox.com/api/restaurants", {
       headers: { 
@@ -23,37 +24,50 @@ class App extends Component {
       });
   };
 
-
+  stateFilter = (event) => {
+    const filtered = []
+    const restaurants = [...this.state.restaurants]
+    restaurants.map(restaurant => {
+      if (restaurant.state === event.target.value) {
+        filtered.push(restaurant);
+      }
+    })
+    console.log(filtered)
+    this.setState({filter: true})
+    // this.setState({restaurants: filtered})
+  };
+ 
   render() {
+
     const restaurants = this.state.restaurants.map(restaurant => {
       return(
-        <div>
-          <tbody className="restaurant">
-            <td className="cell-name">{restaurant.name}</td>
-            <td className="cell-city">{restaurant.city}</td>
-            <td className="cell-state">{restaurant.state}</td>
-            <td className="cell-phone">{restaurant.telephone}</td>
-            <td className="cell-genre">{restaurant.genre}</td>
-          </tbody>
-        </div>
-      )
-    })
-    return (
-      <div className="App">
+        <Restaurant
+          key={restaurant.id}
+          name={restaurant.name} 
+          city={restaurant.city} 
+          state={restaurant.state} 
+          telephone={restaurant.telephone}
+          genre={restaurant.genre}
+        />
+        );
+      });
+      
+      return (
+        <div className="App">
         <header className="App-header">
-          Charter-Spectrum FE Code Challenge
-        <tbody>
-          {/* <th>Name</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Telephone</th>
-          <th>Genre</th> */}
+          <h1>Charter-Spectrum FE Code Challenge</h1>
+          <p>State:<br></br><input onChange={this.stateFilter}></input><button onClick={this.stateFilter}>Filter</button></p>
+          <table>
+            <th>Name,</th>
+            <th>City,</th>
+            <th>State,</th>
+            <th>Telephone</th>
+          </table>
           {restaurants}
-        </tbody>  
         </header>
       </div>
     );
-  }
-}
+  };
+};
 
 export default App;
