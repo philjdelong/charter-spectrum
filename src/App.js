@@ -28,9 +28,11 @@ class App extends Component {
   stateFilter = (event) => {
     const filtered = [];
     const restaurants = [...this.state.restaurants];
-    restaurants.map(restaurant => {
-      if (restaurant.state === event.target.value.toUpperCase()) {
-        return filtered.push(restaurant);
+    restaurants.map(result => {
+      if (result.state === event.target.value.toUpperCase()) {
+        return filtered.push(result);
+      } else {
+        return null;
       };
     });
     if (filtered.length) {
