@@ -44,3 +44,11 @@
   border: 1px solid #eee;
   font-size: 12px;
 }
+
+.cell-genre  {
+  color: white;
+  width: 350px;
+  height: 50px;
+  border: 1px solid #eee;
+  font-size: 12px;
+}
