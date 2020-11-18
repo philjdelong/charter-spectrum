@@ -7,7 +7,6 @@ class App extends Component {
   state = {
     display: [],
     restaurants: [],
-    filtered: false,
     noResults: false,
   };
 
@@ -27,30 +26,30 @@ class App extends Component {
   };
 
   stateFilter = (event) => {
-    const filtered = []
-    const restaurants = [...this.state.restaurants]
-    restaurants.map(restaurant => {
-      if (restaurant.state === event.target.value.toUpperCase()) {
-        return filtered.push(restaurant);
+
+      const filtered = []
+      const restaurants = [...this.state.restaurants]
+      restaurants.map(restaurant => {
+        if (restaurant.state === event.target.value.toUpperCase()) {
+          return filtered.push(restaurant);
+        }
+      })
+      if (filtered.length) {
+        this.setState({noResults: false});
+        return this.setState({display: filtered});
+      } else {
+        return this.setState({noResults: true})
       }
-      return this.setState({filtered: true})
-    })
-    if (filtered.length) {
-      this.setState({noResults: false});
-      return this.setState({display: filtered});
-    } else {
-      return this.setState({noResults: true})
-    }
+    
   };
 
   clearFilter = (event) => {
-    this.setState({filtered: false});
     this.setState({noResults: false});
     return this.setState({display: this.state.restaurants});
   };
  
   render() {
-    if (this.state.filtered && this.state.noResults) {
+    if (this.state.noResults) {
       return (
         <div className="App">
         <header className="App-header">
