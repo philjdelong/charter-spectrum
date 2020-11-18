@@ -5,9 +5,10 @@ import Restaurant from './Components/Restaurant/Restaurant.js'
 
 class App extends Component {
   state = {
+    display: [],
     restaurants: [],
-    filtered: [],
-    filter: false
+    filtered: false,
+    noResults: false,
   };
 
   componentDidMount() {
@@ -20,6 +21,7 @@ class App extends Component {
         const sortedData = result.data.sort((a,b) => {
           return a.name.localeCompare(b.name);
         })
+        this.setState({display: sortedData})
         this.setState({restaurants: sortedData})
       });
   };
@@ -28,45 +30,67 @@ class App extends Component {
     const filtered = []
     const restaurants = [...this.state.restaurants]
     restaurants.map(restaurant => {
-      if (restaurant.state === event.target.value) {
-        filtered.push(restaurant);
+      if (restaurant.state === event.target.value.toUpperCase()) {
+        return filtered.push(restaurant);
       }
+      return this.setState({filtered: true})
     })
-    console.log(filtered)
-    this.setState({filter: true})
-    // this.setState({restaurants: filtered})
+    if (filtered.length) {
+      this.setState({noResults: false});
+      return this.setState({display: filtered});
+    } else {
+      return this.setState({noResults: true})
+    }
+  };
+
+  clearFilter = (event) => {
+    this.setState({filtered: false});
+    this.setState({noResults: false});
+    return this.setState({display: this.state.restaurants});
   };
  
   render() {
-
-    const restaurants = this.state.restaurants.map(restaurant => {
-      return(
-        <Restaurant
-          key={restaurant.id}
-          name={restaurant.name} 
-          city={restaurant.city} 
-          state={restaurant.state} 
-          telephone={restaurant.telephone}
-          genre={restaurant.genre}
-        />
-        );
-      });
-      
+    if (this.state.filtered && this.state.noResults) {
       return (
         <div className="App">
         <header className="App-header">
           <h1>Charter-Spectrum FE Code Challenge</h1>
-          <p>State:<br></br><input onChange={this.stateFilter}></input><button onClick={this.stateFilter}>Filter</button></p>
-          <table>
-            <th>Name,</th>
-            <th>City,</th>
-            <th>State,</th>
-            <th>Telephone</th>
-          </table>
-          {restaurants}
+          <p>Filter by State (abbreviation):<br></br><input onChange={this.stateFilter}></input><button onClick={this.clearFilter}>Clear</button></p>
+          <div>
+            <p>No Restaurants.</p>
+          </div>
         </header>
       </div>
-    );
+      )
+    } else {
+      const restaurants = this.state.display.map(restaurant => {
+        return(
+          <Restaurant
+            key={restaurant.id}
+            name={restaurant.name} 
+            city={restaurant.city} 
+            state={restaurant.state} 
+            telephone={restaurant.telephone}
+            genre={restaurant.genre}
+          />
+        );
+      });
+      return (
+        <div className="App">
+          <header className="App-header">
+            <h1>Charter-Spectrum FE Code Challenge</h1>
+            <p>Filter by State (abbreviation):<br></br><input onChange={this.stateFilter}></input><button onClick={this.clearFilter}>Clear</button></p>
+            <table>
+              <th>Name,</th>
+              <th>City,</th>
+              <th>State,</th>
+              <th>Telephone</th>
+            </table>
+            {restaurants}
+          </header>
+        </div>
+      );
+    };
   };
 };
 
