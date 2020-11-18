@@ -16,34 +16,32 @@ class App extends Component {
         "Authorization": "Api-Key q3MNxtfep8Gt"
       }
     })
-      .then(result => {
-        const sortedData = result.data.sort((a,b) => {
-          return a.name.localeCompare(b.name);
-        })
-        this.setState({display: sortedData})
-        this.setState({restaurants: sortedData})
-      });
+    .then(result => {
+      const sortedData = result.data.sort((a,b) => {
+        return a.name.localeCompare(b.name);
+      })
+      this.setState({display: sortedData})
+      this.setState({restaurants: sortedData})
+    });
   };
 
   stateFilter = (event) => {
-
-      const filtered = []
-      const restaurants = [...this.state.restaurants]
-      restaurants.map(restaurant => {
-        if (restaurant.state === event.target.value.toUpperCase()) {
-          return filtered.push(restaurant);
-        }
-      })
-      if (filtered.length) {
-        this.setState({noResults: false});
-        return this.setState({display: filtered});
-      } else {
-        return this.setState({noResults: true})
-      }
-    
+    const filtered = [];
+    const restaurants = [...this.state.restaurants];
+    restaurants.map(restaurant => {
+      if (restaurant.state === event.target.value.toUpperCase()) {
+        return filtered.push(restaurant);
+      };
+    });
+    if (filtered.length) {
+      this.setState({noResults: false});
+      return this.setState({display: filtered});
+    } else {
+      return this.setState({noResults: true})
+    };
   };
 
-  clearFilter = (event) => {
+  clearFilter = () => {
     this.setState({noResults: false});
     return this.setState({display: this.state.restaurants});
   };
@@ -60,7 +58,7 @@ class App extends Component {
           </div>
         </header>
       </div>
-      )
+      );
     } else {
       const restaurants = this.state.display.map(restaurant => {
         return(
@@ -79,11 +77,12 @@ class App extends Component {
           <header className="App-header">
             <h1>Charter-Spectrum FE Code Challenge</h1>
             <p>Filter by State (abbreviation):<br></br><input onChange={this.stateFilter}></input><button onClick={this.clearFilter}>Clear</button></p>
-            <table>
+            <table className="restaurants">
               <th>Name,</th>
               <th>City,</th>
               <th>State,</th>
-              <th>Telephone</th>
+              <th>Telephone,</th>
+              <th>Genre</th>
             </table>
             {restaurants}
           </header>
