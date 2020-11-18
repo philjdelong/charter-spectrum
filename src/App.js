@@ -1,14 +1,15 @@
 import './App.css';
 import { Component } from 'react';
-import axios from 'axios'
-import env from 'dotenv'
-
-env.config();
+import axios from 'axios';
+import Restaurant from './Components/Restaurant/Restaurant.js'
 
 class App extends Component {
   state = {
-    restaurants: []
-  }
+    display: [],
+    restaurants: [],
+    noResults: false,
+  };
+
   componentDidMount() {
     axios.get("https://code-challenge.spectrumtoolbox.com/api/restaurants", {
       headers: { 
@@ -19,41 +20,77 @@ class App extends Component {
         const sortedData = result.data.sort((a,b) => {
           return a.name.localeCompare(b.name);
         })
+        this.setState({display: sortedData})
         this.setState({restaurants: sortedData})
       });
   };
 
+  stateFilter = (event) => {
 
+      const filtered = []
+      const restaurants = [...this.state.restaurants]
+      restaurants.map(restaurant => {
+        if (restaurant.state === event.target.value.toUpperCase()) {
+          return filtered.push(restaurant);
+        }
+      })
+      if (filtered.length) {
+        this.setState({noResults: false});
+        return this.setState({display: filtered});
+      } else {
+        return this.setState({noResults: true})
+      }
+    
+  };
+
+  clearFilter = (event) => {
+    this.setState({noResults: false});
+    return this.setState({display: this.state.restaurants});
+  };
+ 
   render() {
-    const restaurants = this.state.restaurants.map(restaurant => {
-      return(
-        <div>
-          <tbody className="restaurant">
-            <td className="cell-name">{restaurant.name}</td>
-            <td className="cell-city">{restaurant.city}</td>
-            <td className="cell-state">{restaurant.state}</td>
-            <td className="cell-phone">{restaurant.telephone}</td>
-            <td className="cell-genre">{restaurant.genre}</td>
-          </tbody>
-        </div>
-      )
-    })
-    return (
-      <div className="App">
+    if (this.state.noResults) {
+      return (
+        <div className="App">
         <header className="App-header">
-          Charter-Spectrum FE Code Challenge
-        <tbody>
-          {/* <th>Name</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Telephone</th>
-          <th>Genre</th> */}
-          {restaurants}
-        </tbody>  
+          <h1>Charter-Spectrum FE Code Challenge</h1>
+          <p>Filter by State (abbreviation):<br></br><input onChange={this.stateFilter}></input><button onClick={this.clearFilter}>Clear</button></p>
+          <div>
+            <p>No Restaurants.</p>
+          </div>
         </header>
       </div>
-    );
-  }
-}
+      )
+    } else {
+      const restaurants = this.state.display.map(restaurant => {
+        return(
+          <Restaurant
+            key={restaurant.id}
+            name={restaurant.name} 
+            city={restaurant.city} 
+            state={restaurant.state} 
+            telephone={restaurant.telephone}
+            genre={restaurant.genre}
+          />
+        );
+      });
+      return (
+        <div className="App">
+          <header className="App-header">
+            <h1>Charter-Spectrum FE Code Challenge</h1>
+            <p>Filter by State (abbreviation):<br></br><input onChange={this.stateFilter}></input><button onClick={this.clearFilter}>Clear</button></p>
+            <table>
+              <th>Name,</th>
+              <th>City,</th>
+              <th>State,</th>
+              <th>Telephone</th>
+            </table>
+            {restaurants}
+          </header>
+        </div>
+      );
+    };
+  };
+};
 
 export default App;
