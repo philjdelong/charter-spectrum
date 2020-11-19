@@ -23,19 +23,22 @@ class App extends Component {
       const sortedData = result.data.sort((a,b) => {
         return a.name.localeCompare(b.name);
       })
-      sortedData.map(restaurant => { 
-        return this.setState({genres: this.state.genres.concat(restaurant.genre.split(','))})
-      })
-      const unique = (value, index, self) => {
-        return self.indexOf(value) === index;
-      }
-      const uniqueGenres = this.state.genres.filter(unique)
-
-      this.setState({display: sortedData})
-      this.setState({restaurants: sortedData})
-      this.setState({genres: uniqueGenres})
+      this.setState({display: sortedData});
+      this.setState({restaurants: sortedData});
+      this.uniqueGenres();
     });
   };
+
+  uniqueGenres = () => {
+    this.state.restaurants.map(restaurant => { 
+      return this.setState({genres: this.state.genres.concat(restaurant.genre.split(','))})
+    })
+    const unique = (value, index, self) => {
+      return self.indexOf(value) === index;
+    }
+    const uniqueGenres = this.state.genres.filter(unique)
+    this.setState({genres: uniqueGenres})
+  }
 
   stateFilter = (event) => {
     const filtered = [];
