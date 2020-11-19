@@ -1,4 +1,4 @@
-.name {
+.cell-name {
     padding: 5px;
     height: 50px;
     font-size: calc(6px + 1vmin);
@@ -8,7 +8,7 @@
     font-weight: bolder;
 }
   
-.state {
+.cell-state {
     width: 50px;
     height: 50px;
     border: 1px solid #eee;
@@ -17,7 +17,7 @@
     font-size: calc(6px + 1vmin);
 }
 
-.genre  {
+.cell-genre  {
     width: 350px;
     height: 50px;
     border: 1px solid #eee;
@@ -25,7 +25,7 @@
     font-size: calc(6px + 1vmin);
 }
 
-.cell {
+.cell-default {
     width: 100px;
     height: 50px;
     border: 1px solid #eee;
