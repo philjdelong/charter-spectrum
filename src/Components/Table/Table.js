@@ -9,7 +9,6 @@ const table = props => {
                     <th>City,</th>
                     <th>State,</th>
                     <th>Telephone</th>
-                    {/* <th>Genre</th> */}
                 </tr>
             </tbody>
         </table>
