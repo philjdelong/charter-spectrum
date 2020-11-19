@@ -1,7 +1,7 @@
 # Charter-Spectrum FE Code Challenge
 
 ### About
-Depoloyed to: [Restaurant Challenge](https://restaurant-challenge.netlify.app/) using Netlify
+Depoloyed to: [Restaurant RoundUp](https://restaurant-challenge.netlify.app/) using Netlify
 
 In this challenge, I consumed an external API using Axios, and displayed restaurant results sorted alphabetically.
 - Once all restaurants are displayed, users can filter restaurants by state.
