@@ -9,6 +9,7 @@ class App extends Component {
   state = {
     display: [],
     restaurants: [],
+    genres: [],
     noResults: false,
   };
 
@@ -71,7 +72,7 @@ class App extends Component {
             city={restaurant.city} 
             state={restaurant.state} 
             telephone={restaurant.telephone}
-            genre={restaurant.genre}
+            // genre={restaurant.genre}
           />
         );
       });
