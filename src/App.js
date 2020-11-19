@@ -4,11 +4,13 @@ import axios from 'axios';
 import Restaurant from './Components/Restaurant/Restaurant.js'
 import Header from './Components/Header/Header.js'
 import Table from './Components/Table/Table.js'
+import Genres from './Components/Genres/Genres.js'
 
 class App extends Component {
   state = {
     display: [],
     restaurants: [],
+    genres: [],
     noResults: false,
   };
 
@@ -21,10 +23,23 @@ class App extends Component {
     .then(result => {
       const sortedData = result.data.sort((a,b) => {
         return a.name.localeCompare(b.name);
-      })
-      this.setState({display: sortedData})
-      this.setState({restaurants: sortedData})
+      });
+      this.setState({display: sortedData});
+      this.setState({restaurants: sortedData});
+      this.uniqueGenres(sortedData);
     });
+  };
+
+  uniqueGenres = (data) => {
+    data.map(restaurant => {
+      const unique = this.state.genres.concat(restaurant.genre.split(','));
+      return this.setState({genres: unique});
+    })
+    const unique = (value, index, self) => {
+      return self.indexOf(value) === index;
+    }
+    const uniqueGenres = [...this.state.genres].filter(unique)
+    this.setState({genres: uniqueGenres})
   };
 
   stateFilter = (event) => {
@@ -45,9 +60,13 @@ class App extends Component {
     };
   };
 
+  genreFilter = (event) =>{
+    console.log("Filter by Genre.")
+  };
+
   clearFilter = () => {
     this.setState({noResults: false});
-    return this.setState({display: this.state.restaurants});
+    return this.setState({display: [...this.state.restaurants]});
   };
  
   render() {
@@ -55,7 +74,10 @@ class App extends Component {
       return (
         <div className="App">
         <header className="App-header">
-          <Header stateFilter={this.stateFilter} clearFilter={this.clearFilter}/> 
+          <Header stateFilter={this.stateFilter} clearFilter={this.clearFilter}/>
+          <div>
+              <Genres genres={this.state.genres} genreFilter={this.genreFilter}/>
+            </div>
           <div>
             <p>No Restaurants.</p>
           </div>
@@ -63,7 +85,7 @@ class App extends Component {
       </div>
       );
     } else {
-      const restaurants = this.state.display.map(restaurant => {
+      const restaurants = [...this.state.display].map(restaurant => {
         return(
           <Restaurant
             key={restaurant.id}
@@ -71,7 +93,7 @@ class App extends Component {
             city={restaurant.city} 
             state={restaurant.state} 
             telephone={restaurant.telephone}
-            genre={restaurant.genre}
+            // genre={restaurant.genre}
           />
         );
       });
@@ -79,7 +101,10 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <Header stateFilter={this.stateFilter} clearFilter={this.clearFilter}/>
-            <Table />
+            <div>
+              <Genres genres={this.state.genres} genreFilter={this.genreFilter}/>
+            </div>
+            <Table/>
             {restaurants}
           </header>
         </div>
